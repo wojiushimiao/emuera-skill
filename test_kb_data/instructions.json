@@ -1,0 +1,1172 @@
+[
+  {
+    "mnemonic": "IF",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SIF",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SELECTCASE",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "FOR",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "WHILE",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DO",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "REPEAT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "CALL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "TRYCALL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "CALLFORM",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "TRYCALLFORM",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "TRYCCALLFORM",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "TRYCALLLIST",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "CALLFORMF",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "TRYCALLFORMF",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "RETURN",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "复活候选",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "RETURNF",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "NOOP",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTW",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTDL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTV",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "静默丢弃",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTVL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTSL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTFORM",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTFORML",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTFORMW",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTFORMC",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTFORMLC",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTFORMDC",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTFORMD",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTFORMDL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTFORMDW",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTFORMS",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTDATA",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTDATAL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DATALIST",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DATAFORM",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "INPUT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "INPUTS",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "ONEINPUT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "ONEINPUTS",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "TINPUT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "TINPUTS",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "TONEINPUT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "TONEINPUTS",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "GOTO",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "静默丢弃",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "LABEL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "TIMES",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "THROW",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "BEGIN",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "NOOP",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "VARSET",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "INVERTBIT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "GETBIT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SETBIT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "CLEARBIT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "ADDCHARA",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DELCHARA",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SAVEDATA",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "LOADDATA",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "LOADGLOBAL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SAVEGLOBAL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "BREAK",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "CONTINUE",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "JUMP",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DOTRAIN",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "WAIT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "TWAIT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DRAWLINE",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "静默丢弃",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DRAWLINEFORM",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "CLEARLINE",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "REDRAW",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "CUSTOMDRAWLINE",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SETCOLOR",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "静默丢弃",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "RESETCOLOR",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "静默丢弃",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTBUTTON",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTBUTTONC",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "BAR",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "RESTART",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "COMMENT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "NOOP",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "IF_DEBUG",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DEBUGPRINT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DEBUGPRINTL",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DEBUGPRINTW",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DEBUGPRINTFORM",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DEBUGPRINTFORML",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "DEBUGPRINTFORMW",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTSINGLEFORM",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTSINGLEFORMS",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTPLAINFORM",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTPLAIN",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "HTML_PRINT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "ALIGNMENT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "静默丢弃",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "GETTIME",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "RESETDATA",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "LOADGAME",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "静默丢弃",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SAVEGAME",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "静默丢弃",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SPLIT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "FONTSTYLE",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SETFONT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SAVECHARA",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "LOADCHARA",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "STRLENFORMU",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "STRLENFORM",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PUTFORM",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "REUSELASTLINE",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "PRINTSW",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SPRITEDISPOSE",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SKIPDISP",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "NOOP",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SETBGCOLOR",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "RESETBGCOLOR",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "ARRAYCOPY",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SWAP",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "静默丢弃",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "ADDCOPYCHARA",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "SETLINECOUNT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "GETLINECOUNT",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  },
+  {
+    "mnemonic": "CHKSPEED",
+    "category": "语句指令",
+    "params": [],
+    "semantics": "",
+    "example": "",
+    "impl_status": "已实现",
+    "source_ref": "core/parser.py::_STATEMENT_STARTERS",
+    "notes": ""
+  }
+]

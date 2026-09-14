@@ -1,0 +1,20 @@
+# Emuera-SKILL 默认配置
+# 对齐 COMMON §2.4 配置默认注册表
+
+# 编码探测回退顺序
+encoding_fallback:
+  - utf-8
+  - shift-jis
+  - gbk
+
+# 单次模拟运行超时（秒）
+run_timeout_s: 60
+
+# 产物根目录（工程之外）
+output_root: ./emuera-skill-out
+
+# 输入耗尽时的默认收尾输入
+default_input: ""
+
+# 单次输出截断长度
+render_text_len: 2000

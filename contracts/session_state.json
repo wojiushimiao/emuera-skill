@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SessionState",
+  "description": "跨对话持久化会话的存取结构（COMMON §2.3 session_state.json v1，L1 §2.8/§4.2）",
+  "type": "object",
+  "required": ["path", "fingerprint", "session_context", "final_variables", "game_stage", "io_digest", "format_version"],
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "持久化会话文件路径"
+    },
+    "fingerprint": {
+      "type": "string",
+      "description": "工程指纹（校验一致性）"
+    },
+    "session_context": {
+      "type": "object",
+      "description": "会话上下文（阶段、历史、动作清单等）"
+    },
+    "final_variables": {
+      "type": "object",
+      "description": "引擎终态变量表（恢复唯一依据）"
+    },
+    "game_stage": {
+      "type": "string",
+      "description": "当前游戏阶段"
+    },
+    "io_digest": {
+      "type": "object",
+      "description": "输入输出缓冲摘要"
+    },
+    "format_version": {
+      "type": "string",
+      "description": "格式版本号"
+    }
+  }
+}

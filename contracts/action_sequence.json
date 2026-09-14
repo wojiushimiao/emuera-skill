@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ActionSequence",
+  "description": "游玩翻译的输出结构（COMMON §2.3 action_sequence.json v1）",
+  "type": "object",
+  "required": ["action_type", "confidence"],
+  "properties": {
+    "action_type": {
+      "type": "string",
+      "description": "动作类型",
+      "enum": ["select_option", "input_text", "multi_step"]
+    },
+    "target_index": {
+      "type": "integer",
+      "description": "选项编号（select_option 时必填）"
+    },
+    "input_text": {
+      "type": "string",
+      "description": "输入文本（input_text 时必填）"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "翻译置信度"
+    }
+  }
+}

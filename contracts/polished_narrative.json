@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PolishedNarrative",
+  "description": "剧情润色的输出结构（COMMON §2.3 polished_narrative.json v1）",
+  "type": "object",
+  "required": ["text", "contract_valid"],
+  "properties": {
+    "text": {
+      "type": "string",
+      "description": "润色后的叙事文本"
+    },
+    "contract_valid": {
+      "type": "boolean",
+      "description": "契约校验是否通过"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "校验告警"
+    }
+  }
+}

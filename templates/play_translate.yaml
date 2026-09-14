@@ -1,0 +1,17 @@
+# 游玩翻译模板（占位，P5 交付后填充）
+# 用于 llm-orchestration 的 translate_intent 场景
+
+template_id: play_translate
+version: 1
+
+system_prompt: |
+  你是一个 Emuera 游戏的代玩助手。玩家会用自然语言描述想做什么，
+  你需要把它翻译成游戏内的具体动作。
+
+user_prompt_template: |
+  当前游戏阶段：{game_stage}
+  可用动作：{available_actions}
+  玩家指令：{intent}
+  游戏状态摘要：{state_summary}
+
+  请返回结构化的动作序列（JSON），字段见 action_sequence.json 契约。

@@ -1,0 +1,15 @@
+# Emuera-SKILL v1.2.0 依赖说明
+#
+# 【核心功能】零依赖，开箱即用
+#   工程扫描 / 代码图谱 / 缺口分析 / 无头运行 / 玩家会话 / 调试会话
+#   / 知识库 / 9 命令 CLI / MCP Server（9 工具）
+#   完整 Python 内核已内置于 kernel_src/，无需额外安装。
+#
+# 【可选功能】仅以下两项需要 aiohttp
+#   - 内核 LLM 桥接：kernel_src/llm/llm_bridge.py
+#   - 内核 Web 服务：kernel_src/web/server.py
+#
+# 需要时执行：pip install aiohttp>=3.9.0
+# 或：       pip install -e ".[full]"
+
+# 核心依赖：无

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ContentDraft",
+  "description": "剧本/功能生成的输出结构（COMMON §2.3 content_draft.json v1）",
+  "type": "object",
+  "required": ["anchors", "draft_path", "validation"],
+  "properties": {
+    "anchors": {
+      "type": "array",
+      "description": "锚点清单"
+    },
+    "draft_path": {
+      "type": "string",
+      "description": "草案文件路径"
+    },
+    "validation": {
+      "type": "object",
+      "description": "校验结果"
+    },
+    "impact": {
+      "type": "object",
+      "description": "影响面报告"
+    }
+  }
+}

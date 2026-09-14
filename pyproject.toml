@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "emuera-skill"
+version = "1.2.0"
+description = "Emuera 脚本游戏开发、调试、游玩工具包 — 内置完整 Python 版 ERB 解释器内核"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+keywords = ["emuera", "erb", "eramaker", "interpreter", "game-tooling"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Interpreters",
+]
+
+# 核心功能（工程扫描 / 图谱 / 缺口分析 / 无头运行 / 会话 / 调试 / 知识库 / CLI / MCP）
+# 全部基于标准库 + 内置内核，零第三方依赖。
+dependencies = []
+
+[project.optional-dependencies]
+# 仅当使用内核的 LLM 桥接（kernel_src/llm）或 Web 服务（kernel_src/web）时需要
+llm = ["aiohttp>=3.9.0"]
+web = ["aiohttp>=3.9.0"]
+full = ["aiohttp>=3.9.0"]
+
+[project.scripts]
+emuera-skill = "emuera_skill.interface.cli:cli_main"
+emuera-skill-mcp = "emuera_skill.mcp_server.server:run_stdio_server"
+
+[tool.setuptools]
+packages = ["emuera_skill"]
+
+[tool.setuptools.package-data]
+emuera_skill = ["*.yaml", "*.json"]

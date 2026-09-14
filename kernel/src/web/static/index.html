@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERA红魔館NTR++</title>
+<style>
+:root {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-card: #0f3460;
+  --bg-input: #1a1a3e;
+  --accent-red: #e94560;
+  --accent-purple: #533483;
+  --accent-blue: #4a90d9;
+  --accent-green: #2ecc71;
+  --accent-yellow: #f39c12;
+  --text-primary: #eee;
+  --text-secondary: #aaa;
+  --text-muted: #666;
+  --border-color: #2a2a4a;
+  --radius: 8px;
+  --shadow: 0 2px 10px rgba(0,0,0,0.3);
+  --transition: 0.2s ease;
+  --nav-width: 220px;
+  --nav-collapsed: 56px;
+  --topbar-height: 48px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  height: 100vh;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--accent-purple); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-red); }
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--topbar-height);
+  background: var(--bg-secondary); border-bottom: 1px solid var(--border-color);
+  display: flex; align-items: center; padding: 0 16px; z-index: 100;
+  box-shadow: var(--shadow);
+}
+.topbar-title {
+  font-size: 18px; font-weight: 700; color: var(--accent-red);
+  margin-right: 24px; white-space: nowrap;
+}
+.topbar-mode {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px; background: var(--bg-card); border-radius: 12px;
+  font-size: 12px; color: var(--accent-yellow); margin-right: 16px;
+}
+.topbar-mode .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent-green); animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
+}
+.topbar-actions { display: flex; gap: 8px; margin-left: auto; }
+.topbar-btn {
+  padding: 6px 14px; border: 1px solid var(--border-color);
+  background: var(--bg-card); color: var(--text-primary);
+  border-radius: var(--radius); cursor: pointer; font-size: 13px;
+  transition: var(--transition);
+}
+.topbar-btn:hover { background: var(--accent-purple); border-color: var(--accent-purple); }
+.topbar-btn.danger:hover { background: var(--accent-red); border-color: var(--accent-red); }
+.sidebar {
+  position: fixed; top: var(--topbar-height); left: 0; bottom: 0;
+  width: var(--nav-width); background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color); z-index: 90;
+  transition: width var(--transition); overflow: hidden;
+}
+.sidebar.collapsed { width: var(--nav-collapsed); }
+.nav-list { list-style: none; padding: 8px 0; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; cursor: pointer; transition: var(--transition);
+  white-space: nowrap; overflow: hidden; font-size: 14px;
+  color: var(--text-secondary);
+}
+.nav-item:hover { background: rgba(233,69,96,0.1); color: var(--text-primary); }
+.nav-item.active { background: rgba(83,52,131,0.3); color: var(--accent-red); border-right: 3px solid var(--accent-red); }
+.nav-item .icon { font-size: 18px; min-width: 24px; text-align: center; }
+.nav-item .label { transition: opacity var(--transition); }
+.sidebar.collapsed .nav-item .label { opacity: 0; }
+.sidebar-toggle {
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  color: var(--text-secondary); cursor: pointer; display: flex;
+  align-items: center; justify-content: center; font-size: 14px;
+  transition: var(--transition);
+}
+.sidebar-toggle:hover { background: var(--accent-purple); color: var(--text-primary); }
+.main {
+  position: fixed; top: var(--topbar-height); left: var(--nav-width);
+  right: 0; bottom: 0; transition: left var(--transition);
+  overflow: hidden;
+}
+.main.expanded { left: var(--nav-collapsed); }
+.page { display: none; height: 100%; overflow: auto; padding: 16px; }
+.page.active { display: flex; flex-direction: column; }
+.console-container { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.console-output {
+  flex: 1; background: #0d0d1a; border: 1px solid var(--border-color);
+  border-radius: var(--radius); padding: 12px; overflow-y: auto;
+  font-family: 'Cascadia Code', 'Consolas', monospace; font-size: 14px;
+  line-height: 1.6; white-space: pre-wrap; word-break: break-all;
+  min-height: 200px;
+}
+.console-output .color-0 { color: #333; }
+.console-output .color-1 { color: #3498db; }
+.console-output .color-2 { color: #2ecc71; }
+.console-output .color-3 { color: #1abc9c; }
+.console-output .color-4 { color: #e94560; }
+.console-output .color-5 { color: #9b59b6; }
+.console-output .color-6 { color: #f39c12; }
+.console-output .color-7 { color: #ecf0f1; }
+.console-output .color-8 { color: #7f8c8d; }
+.console-output .color-9 { color: #5dade2; }
+.console-output .color-10 { color: #58d68d; }
+.console-output .color-11 { color: #48c9b0; }
+.console-output .color-12 { color: #ec7063; }
+.console-output .color-13 { color: #af7ac5; }
+.console-output .color-14 { color: #f4d03f; }
+.console-output .color-15 { color: #fdfefe; }
+.console-output .btn-game {
+  display: inline-block; padding: 2px 10px; margin: 2px 4px;
+  background: var(--bg-card); border: 1px solid var(--accent-blue);
+  border-radius: 4px; cursor: pointer; color: var(--accent-blue);
+  transition: var(--transition); font-family: inherit; font-size: inherit;
+}
+.console-output .btn-game:hover { background: var(--accent-blue); color: #fff; }
+.console-input-area {
+  display: flex; gap: 8px; margin-top: 8px; align-items: center;
+}
+.console-input {
+  flex: 1; padding: 10px 14px; background: var(--bg-input);
+  border: 1px solid var(--border-color); border-radius: var(--radius);
+  color: var(--text-primary); font-size: 14px; outline: none;
+  transition: var(--transition);
+}
+.console-input:focus { border-color: var(--accent-purple); }
+.console-send {
+  padding: 10px 20px; background: var(--accent-purple);
+  border: none; border-radius: var(--radius); color: #fff;
+  cursor: pointer; font-size: 14px; transition: var(--transition);
+}
+.console-send:hover { background: var(--accent-red); }
+.quick-commands {
+  display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap;
+}
+.quick-cmd {
+  padding: 6px 12px; background: var(--bg-card);
+  border: 1px solid var(--border-color); border-radius: var(--radius);
+  color: var(--text-secondary); cursor: pointer; font-size: 12px;
+  transition: var(--transition);
+}
+.quick-cmd:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+.console-toolbar {
+  display: flex; gap: 8px; margin-top: 8px; align-items: center;
+}
+.toolbar-toggle {
+  padding: 4px 10px; background: transparent; border: 1px solid var(--border-color);
+  border-radius: var(--radius); color: var(--text-secondary);
+  cursor: pointer; font-size: 12px; transition: var(--transition);
+}
+.toolbar-toggle.active { background: var(--accent-purple); border-color: var(--accent-purple); color: #fff; }
+.numpad {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
+  margin-top: 8px; max-width: 400px;
+}
+.numpad-btn {
+  padding: 10px; background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius); color: var(--text-primary);
+  cursor: pointer; font-size: 16px; text-align: center;
+  transition: var(--transition);
+}
+.numpad-btn:hover { background: var(--accent-purple); border-color: var(--accent-purple); }
+.numpad-btn.wide { grid-column: span 2; }
+.char-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px; padding: 4px;
+}
+.char-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius); padding: 16px; cursor: pointer;
+  transition: var(--transition);
+}
+.char-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); box-shadow: var(--shadow); }
+.char-card.selected { border-color: var(--accent-red); }
+.char-avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--accent-purple); display: flex; align-items: center;
+  justify-content: center; font-size: 20px; margin-bottom: 8px;
+}
+.char-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.char-id { font-size: 12px; color: var(--text-muted); }
+.char-detail {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius); padding: 16px; margin-top: 12px;
+}
+.char-detail h3 { color: var(--accent-red); margin-bottom: 12px; font-size: 16px; }
+.var-table { width: 100%; border-collapse: collapse; }
+.var-table th, .var-table td {
+  padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border-color);
+  font-size: 13px;
+}
+.var-table th { color: var(--accent-yellow); font-weight: 600; }
+.var-table td:nth-child(2) { color: var(--accent-green); font-family: monospace; }
+.monitor-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px; margin-bottom: 16px;
+}
+.monitor-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius); padding: 12px;
+}
+.monitor-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+.monitor-value { font-size: 20px; font-weight: 700; color: var(--accent-green); font-family: monospace; }
+.var-search {
+  display: flex; gap: 8px; margin-bottom: 12px;
+}
+.var-search input {
+  flex: 1; padding: 8px 12px; background: var(--bg-input);
+  border: 1px solid var(--border-color); border-radius: var(--radius);
+  color: var(--text-primary); outline: none;
+}
+.var-search input:focus { border-color: var(--accent-purple); }
+.var-list {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius); overflow: hidden; max-height: 400px; overflow-y: auto;
+}
+.var-list-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 14px; border-bottom: 1px solid var(--border-color);
+  font-size: 13px; cursor: pointer; transition: var(--transition);
+}
+.var-list-item:hover { background: rgba(83,52,131,0.2); }
+.var-list-item .var-name { color: var(--accent-yellow); font-family: monospace; }
+.var-list-item .var-val { color: var(--accent-green); font-family: monospace; }
+.chat-container { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 12px;
+  background: #0d0d1a; border: 1px solid var(--border-color);
+  border-radius: var(--radius); margin-bottom: 8px;
+}
+.chat-msg { margin-bottom: 12px; }
+.chat-msg.user { text-align: right; }
+.chat-msg .bubble {
+  display: inline-block; max-width: 70%; padding: 10px 14px;
+  border-radius: var(--radius); font-size: 14px; line-height: 1.5;
+}
+.chat-msg.user .bubble { background: var(--accent-purple); color: #fff; }
+.chat-msg.assistant .bubble { background: var(--bg-card); color: var(--text-primary); }
+.chat-msg .role { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.chat-input-area { display: flex; gap: 8px; }
+.chat-input {
+  flex: 1; padding: 10px 14px; background: var(--bg-input);
+  border: 1px solid var(--border-color); border-radius: var(--radius);
+  color: var(--text-primary); outline: none; resize: none;
+}
+.chat-input:focus { border-color: var(--accent-purple); }
+.chat-send {
+  padding: 10px 20px; background: var(--accent-purple);
+  border: none; border-radius: var(--radius); color: #fff;
+  cursor: pointer; transition: var(--transition);
+}
+.chat-send:hover { background: var(--accent-red); }
+.llm-controls {
+  display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.llm-select, .llm-input {
+  padding: 8px 12px; background: var(--bg-input);
+  border: 1px solid var(--border-color); border-radius: var(--radius);
+  color: var(--text-primary); outline: none; font-size: 13px;
+}
+.llm-select:focus, .llm-input:focus { border-color: var(--accent-purple); }
+.debug-section {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+}
+.debug-section h3 { color: var(--accent-yellow); margin-bottom: 10px; font-size: 14px; }
+.func-list {
+  max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px;
+}
+.func-item {
+  padding: 6px 10px; border-bottom: 1px solid var(--border-color);
+  cursor: pointer; transition: var(--transition); display: flex;
+  justify-content: space-between;
+}
+.func-item:hover { background: rgba(83,52,131,0.2); }
+.func-item .fname { color: var(--accent-blue); }
+.func-item .finfo { color: var(--text-muted); }
+.error-log {
+  background: #1a0a0a; border: 1px solid #e94560; border-radius: var(--radius);
+  padding: 12px; font-family: monospace; font-size: 12px; color: #e94560;
+  max-height: 200px; overflow-y: auto;
+}
+.settings-group {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 12px;
+}
+.settings-group h3 { color: var(--accent-yellow); margin-bottom: 12px; font-size: 14px; }
+.setting-row {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+}
+.setting-label {
+  min-width: 120px; font-size: 13px; color: var(--text-secondary);
+}
+.setting-input {
+  flex: 1; padding: 8px 12px; background: var(--bg-input);
+  border: 1px solid var(--border-color); border-radius: var(--radius);
+  color: var(--text-primary); outline: none; font-size: 13px;
+}
+.setting-input:focus { border-color: var(--accent-purple); }
+.setting-select {
+  flex: 1; padding: 8px 12px; background: var(--bg-input);
+  border: 1px solid var(--border-color); border-radius: var(--radius);
+  color: var(--text-primary); outline: none; font-size: 13px;
+}
+.save-slot-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px; margin-top: 8px;
+}
+.save-slot {
+  padding: 12px; background: var(--bg-secondary); border: 1px solid var(--border-color);
+  border-radius: var(--radius); text-align: center; cursor: pointer;
+  transition: var(--transition);
+}
+.save-slot:hover { border-color: var(--accent-blue); }
+.save-slot .slot-num { font-size: 18px; font-weight: 700; color: var(--accent-yellow); }
+.save-slot .slot-info { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6); z-index: 200; display: none;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: var(--bg-secondary); border: 1px solid var(--border-color);
+  border-radius: var(--radius); padding: 24px; min-width: 360px;
+  max-width: 500px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+.modal h2 { color: var(--accent-red); margin-bottom: 16px; font-size: 18px; }
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+.toast-container {
+  position: fixed; top: 60px; right: 16px; z-index: 300;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.toast {
+  padding: 10px 16px; border-radius: var(--radius); font-size: 13px;
+  animation: slideIn 0.3s ease; min-width: 200px;
+  box-shadow: var(--shadow);
+}
+.toast.success { background: var(--accent-green); color: #fff; }
+.toast.error { background: var(--accent-red); color: #fff; }
+.toast.info { background: var(--accent-blue); color: #fff; }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.connection-status {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--text-muted); margin-left: 12px;
+}
+.connection-status .dot { width: 6px; height: 6px; border-radius: 50%; }
+.connection-status .dot.connected { background: var(--accent-green); }
+.connection-status .dot.disconnected { background: var(--accent-red); }
+.tab-bar {
+  display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border-color);
+  padding-bottom: 4px;
+}
+.tab-btn {
+  padding: 6px 14px; background: transparent; border: none;
+  color: var(--text-secondary); cursor: pointer; font-size: 13px;
+  border-bottom: 2px solid transparent; transition: var(--transition);
+}
+.tab-btn:hover { color: var(--text-primary); }
+.tab-btn.active { color: var(--accent-red); border-bottom-color: var(--accent-red); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-title">ERA紅魔館NTR++</div>
+  <div class="topbar-mode"><span class="dot"></span><span id="modeText">TITLE</span></div>
+  <div class="connection-status"><span class="dot disconnected" id="connDot"></span><span id="connText">未连接</span></div>
+  <div class="topbar-actions">
+    <button class="topbar-btn" onclick="UI.saveGame()">保存</button>
+    <button class="topbar-btn" onclick="UI.showLoadModal()">加载</button>
+    <button class="topbar-btn" onclick="UI.navigate('settings')">设置</button>
+  </div>
+</div>
+<div class="sidebar" id="sidebar">
+  <ul class="nav-list">
+    <li class="nav-item active" data-page="console" onclick="UI.navigate('console')">
+      <span class="icon">&#127918;</span><span class="label">游戏控制台</span>
+    </li>
+    <li class="nav-item" data-page="characters" onclick="UI.navigate('characters')">
+      <span class="icon">&#128101;</span><span class="label">角色管理</span>
+    </li>
+    <li class="nav-item" data-page="monitor" onclick="UI.navigate('monitor')">
+      <span class="icon">&#128202;</span><span class="label">状态面板</span>
+    </li>
+    <li class="nav-item" data-page="ai" onclick="UI.navigate('ai')">
+      <span class="icon">&#129302;</span><span class="label">AI助手</span>
+    </li>
+    <li class="nav-item" data-page="debug" onclick="UI.navigate('debug')">
+      <span class="icon">&#128295;</span><span class="label">调试工具</span>
+    </li>
+    <li class="nav-item" data-page="settings" onclick="UI.navigate('settings')">
+      <span class="icon">&#9881;</span><span class="label">系统设置</span>
+    </li>
+  </ul>
+  <button class="sidebar-toggle" onclick="UI.toggleSidebar()" id="sidebarToggle">&#9664;</button>
+</div>
+<div class="main" id="mainArea">
+  <div class="page active" id="page-console">
+    <div class="console-container">
+      <div class="console-output" id="consoleOutput"></div>
+      <div class="console-input-area">
+        <input class="console-input" id="consoleInput" placeholder="输入指令或数字..." autocomplete="off">
+        <button class="console-send" onclick="UI.sendInput()">发送</button>
+      </div>
+      <div class="numpad" id="numpad">
+        <button class="numpad-btn" onclick="UI.sendValue(0)">0</button>
+        <button class="numpad-btn" onclick="UI.sendValue(1)">1</button>
+        <button class="numpad-btn" onclick="UI.sendValue(2)">2</button>
+        <button class="numpad-btn" onclick="UI.sendValue(3)">3</button>
+        <button class="numpad-btn" onclick="UI.sendValue(4)">4</button>
+        <button class="numpad-btn" onclick="UI.sendValue(5)">5</button>
+        <button class="numpad-btn" onclick="UI.sendValue(6)">6</button>
+        <button class="numpad-btn" onclick="UI.sendValue(7)">7</button>
+        <button class="numpad-btn" onclick="UI.sendValue(8)">8</button>
+        <button class="numpad-btn" onclick="UI.sendValue(9)">9</button>
+        <button class="numpad-btn" onclick="UI.sendValue(100)">100</button>
+        <button class="numpad-btn" onclick="UI.sendValue(-1)">-1</button>
+        <button class="numpad-btn wide" onclick="UI.sendValue(999)">999</button>
+      </div>
+      <div class="console-toolbar">
+        <button class="toolbar-toggle active" id="autoScrollBtn" onclick="UI.toggleAutoScroll()">自动滚动</button>
+        <button class="toolbar-toggle" onclick="UI.clearConsole()">清屏</button>
+        <button class="toolbar-toggle" id="numpadToggle" onclick="UI.toggleNumpad()">数字键盘</button>
+      </div>
+    </div>
+  </div>
+  <div class="page" id="page-characters">
+    <div class="char-grid" id="charGrid"></div>
+    <div class="char-detail" id="charDetail" style="display:none;"></div>
+  </div>
+  <div class="page" id="page-monitor">
+    <div class="monitor-grid" id="monitorGrid"></div>
+    <div class="var-search">
+      <input placeholder="搜索变量名..." id="varSearchInput" oninput="UI.filterVariables()">
+      <button class="topbar-btn" onclick="UI.refreshVariables()">刷新</button>
+    </div>
+    <div class="var-list" id="varList"></div>
+  </div>
+  <div class="page" id="page-ai">
+    <div class="llm-controls">
+      <select class="llm-select" id="llmAction">
+        <option value="event">事件生成</option>
+        <option value="dialogue">对话生成</option>
+        <option value="scene">场景描述</option>
+        <option value="script">脚本生成</option>
+        <option value="debug">调试辅助</option>
+      </select>
+      <input class="llm-input" id="llmEventType" placeholder="事件类型/函数名...">
+      <input class="llm-input" id="llmTargetId" placeholder="角色ID" type="number" style="max-width:80px;">
+      <button class="topbar-btn" onclick="UI.llmGenerate()">生成</button>
+    </div>
+    <div class="chat-container">
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-area">
+        <textarea class="chat-input" id="chatInput" placeholder="输入自定义提示..." rows="2"></textarea>
+        <button class="chat-send" onclick="UI.llmChat()">发送</button>
+      </div>
+    </div>
+  </div>
+  <div class="page" id="page-debug">
+    <div class="debug-section">
+      <h3>函数列表</h3>
+      <div class="var-search">
+        <input placeholder="搜索函数..." id="funcSearchInput" oninput="UI.filterFunctions()">
+        <button class="topbar-btn" onclick="UI.refreshFunctions()">刷新</button>
+      </div>
+      <div class="func-list" id="funcList"></div>
+    </div>
+    <div class="debug-section">
+      <h3>错误日志</h3>
+      <div class="error-log" id="errorLog">暂无错误</div>
+    </div>
+  </div>
+  <div class="page" id="page-settings">
+    <div class="settings-group">
+      <h3>LLM配置</h3>
+      <div class="setting-row">
+        <span class="setting-label">API端点</span>
+        <input class="setting-input" id="settLlmEndpoint" placeholder="https://api.openai.com/v1/chat/completions">
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">API密钥</span>
+        <input class="setting-input" id="settLlmKey" type="password" placeholder="sk-...">
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">模型</span>
+        <input class="setting-input" id="settLlmModel" placeholder="gpt-4">
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">温度</span>
+        <input class="setting-input" id="settLlmTemp" type="number" min="0" max="2" step="0.1" value="0.7">
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">最大Token</span>
+        <input class="setting-input" id="settLlmMaxTokens" type="number" value="4096">
+      </div>
+      <button class="topbar-btn" onclick="UI.saveSettings()">保存LLM配置</button>
+    </div>
+    <div class="settings-group">
+      <h3>显示设置</h3>
+      <div class="setting-row">
+        <span class="setting-label">字体大小</span>
+        <input class="setting-input" id="settFontSize" type="number" min="10" max="24" value="14">
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">主题色</span>
+        <select class="setting-select" id="settAccentColor">
+          <option value="#e94560">红色</option>
+          <option value="#533483">紫色</option>
+          <option value="#4a90d9">蓝色</option>
+          <option value="#2ecc71">绿色</option>
+        </select>
+      </div>
+      <button class="topbar-btn" onclick="UI.applyDisplaySettings()">应用</button>
+    </div>
+    <div class="settings-group">
+      <h3>游戏路径</h3>
+      <div class="setting-row">
+        <span class="setting-label">游戏目录</span>
+        <input class="setting-input" id="settGameDir" placeholder="游戏根目录路径">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="loadModal">
+  <div class="modal">
+    <h2>加载存档</h2>
+    <div class="save-slot-grid" id="saveSlotGrid"></div>
+    <div class="modal-actions">
+      <button class="topbar-btn" onclick="UI.closeLoadModal()">取消</button>
+    </div>
+  </div>
+</div>
+<div class="toast-container" id="toastContainer"></div>
+<script>
+var UI = (function() {
+  var ws = null;
+  var autoScroll = true;
+  var numpadVisible = true;
+  var sidebarCollapsed = false;
+  var currentPage = "console";
+  var currentColor = -1;
+  var allVariables = [];
+  var allFunctions = [];
+  var selectedCharId = -1;
+  var reconnectTimer = null;
+  var inputType = "number";
+
+  function init() {
+    connectWS();
+    document.getElementById("consoleInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") { sendInput(); e.preventDefault(); }
+    });
+    document.getElementById("chatInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter" && !e.shiftKey) { llmChat(); e.preventDefault(); }
+    });
+    window.addEventListener("hashchange", onHashChange);
+    if (window.location.hash) { onHashChange(); }
+    refreshStatus();
+    setInterval(refreshStatus, 5000);
+  }
+
+  function connectWS() {
+    var proto = window.location.protocol === "https:" ? "wss:" : "ws:";
+    var url = proto + "//" + window.location.host + "/ws";
+    ws = new WebSocket(url);
+    ws.onopen = function() {
+      updateConnection(true);
+      if (reconnectTimer) { clearTimeout(reconnectTimer); reconnectTimer = null; }
+    };
+    ws.onclose = function() {
+      updateConnection(false);
+      if (!reconnectTimer) { reconnectTimer = setTimeout(connectWS, 3000); }
+    };
+    ws.onerror = function() { updateConnection(false); };
+    ws.onmessage = function(evt) {
+      try {
+        var data = JSON.parse(evt.data);
+        handleWSMessage(data);
+      } catch(e) {}
+    };
+  }
+
+  function updateConnection(connected) {
+    var dot = document.getElementById("connDot");
+    var txt = document.getElementById("connText");
+    if (connected) {
+      dot.className = "dot connected";
+      txt.textContent = "已连接";
+    } else {
+      dot.className = "dot disconnected";
+      txt.textContent = "未连接";
+    }
+  }
+
+  function handleWSMessage(data) {
+    var type = data.type;
+    if (type === "output") {
+      appendOutput(data.content);
+    } else if (type === "input_required") {
+      inputType = data.input_type || "number";
+      var inp = document.getElementById("consoleInput");
+      inp.placeholder = data.prompt || ("输入" + (inputType === "number" ? "数字" : "文本") + "...");
+      inp.focus();
+    } else if (type === "state_change") {
+      refreshStatus();
+    } else if (type === "button") {
+      appendButton(data.text, data.value);
+    } else if (type === "color") {
+      currentColor = data.color;
+    } else if (type === "clear") {
+      var out = document.getElementById("consoleOutput");
+      var lines = out.innerHTML.split("\n");
+      if (lines.length > data.count) {
+        out.innerHTML = lines.slice(0, lines.length - data.count).join("\n");
+      }
+    } else if (type === "pong") {}
+  }
+
+  function appendOutput(content) {
+    var out = document.getElementById("consoleOutput");
+    var span = document.createElement("span");
+    if (currentColor >= 0 && currentColor <= 15) {
+      span.className = "color-" + currentColor;
+    }
+    span.textContent = content;
+    out.appendChild(span);
+    if (autoScroll) { out.scrollTop = out.scrollHeight; }
+  }
+
+  function appendButton(text, value) {
+    var out = document.getElementById("consoleOutput");
+    var btn = document.createElement("span");
+    btn.className = "btn-game";
+    btn.textContent = "[" + text + "]";
+    btn.onclick = function() { sendValue(value); };
+    out.appendChild(btn);
+    if (autoScroll) { out.scrollTop = out.scrollHeight; }
+  }
+
+  function sendInput() {
+    var inp = document.getElementById("consoleInput");
+    var val = inp.value.trim();
+    if (!val) return;
+    if (inputType === "number") {
+      val = parseInt(val, 10);
+      if (isNaN(val)) val = 0;
+    }
+    sendValue(val);
+    inp.value = "";
+  }
+
+  function sendValue(val) {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({type: "input", value: val}));
+    }
+    fetch("/api/input", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({value: val})
+    }).catch(function(){});
+    appendOutput(String(val) + "\n");
+  }
+
+  function navigate(page) {
+    currentPage = page;
+    window.location.hash = page;
+    var items = document.querySelectorAll(".nav-item");
+    items.forEach(function(item) {
+      item.classList.toggle("active", item.getAttribute("data-page") === page);
+    });
+    var pages = document.querySelectorAll(".page");
+    pages.forEach(function(p) {
+      p.classList.toggle("active", p.id === "page-" + page);
+    });
+    if (page === "characters") { refreshCharacters(); }
+    if (page === "monitor") { refreshVariables(); }
+    if (page === "debug") { refreshFunctions(); }
+  }
+
+  function onHashChange() {
+    var hash = window.location.hash.replace("#", "");
+    if (hash) { navigate(hash); }
+  }
+
+  function toggleSidebar() {
+    sidebarCollapsed = !sidebarCollapsed;
+    var sb = document.getElementById("sidebar");
+    var main = document.getElementById("mainArea");
+    var btn = document.getElementById("sidebarToggle");
+    sb.classList.toggle("collapsed", sidebarCollapsed);
+    main.classList.toggle("expanded", sidebarCollapsed);
+    btn.innerHTML = sidebarCollapsed ? "&#9654;" : "&#9664;";
+  }
+
+  function toggleAutoScroll() {
+    autoScroll = !autoScroll;
+    var btn = document.getElementById("autoScrollBtn");
+    btn.classList.toggle("active", autoScroll);
+  }
+
+  function toggleNumpad() {
+    numpadVisible = !numpadVisible;
+    document.getElementById("numpad").style.display = numpadVisible ? "grid" : "none";
+    document.getElementById("numpadToggle").classList.toggle("active", numpadVisible);
+  }
+
+  function clearConsole() {
+    document.getElementById("consoleOutput").innerHTML = "";
+  }
+
+  function refreshStatus() {
+    fetch("/api/status").then(function(r) { return r.json(); }).then(function(data) {
+      document.getElementById("modeText").textContent = data.mode || "UNKNOWN";
+      updateMonitorCards(data);
+    }).catch(function(){});
+  }
+
+  function updateMonitorCards(data) {
+    var grid = document.getElementById("monitorGrid");
+    var cards = [
+      {label: "模式", value: data.mode || "-"},
+      {label: "金钱", value: data.money != null ? data.money : "-"},
+      {label: "日期", value: data.day != null ? data.day : "-"},
+      {label: "时间", value: data.time != null ? data.time : "-"},
+      {label: "目标", value: data.target != null ? data.target : "-"},
+      {label: "主角", value: data.master != null ? data.master : "-"},
+      {label: "角色数", value: data.chara_num != null ? data.chara_num : "-"},
+    ];
+    grid.innerHTML = cards.map(function(c) {
+      return '<div class="monitor-card"><div class="monitor-label">' + c.label +
+        '</div><div class="monitor-value">' + c.value + '</div></div>';
+    }).join("");
+  }
+
+  function refreshCharacters() {
+    fetch("/api/characters").then(function(r) { return r.json(); }).then(function(data) {
+      var grid = document.getElementById("charGrid");
+      var chars = data.characters || [];
+      grid.innerHTML = chars.map(function(c) {
+        return '<div class="char-card' + (c.id === selectedCharId ? ' selected' : '') +
+          '" onclick="UI.selectCharacter(' + c.id + ')">' +
+          '<div class="char-avatar">' + (c.id) + '</div>' +
+          '<div class="char-name">角色 #' + c.id + '</div>' +
+          '<div class="char-id">ID: ' + c.id + '</div></div>';
+      }).join("");
+    }).catch(function(){});
+  }
+
+  function selectCharacter(charId) {
+    selectedCharId = charId;
+    refreshCharacters();
+    fetch("/api/characters/" + charId).then(function(r) { return r.json(); }).then(function(data) {
+      var detail = document.getElementById("charDetail");
+      detail.style.display = "block";
+      var html = '<h3>角色 #' + charId + ' 详情</h3>';
+      var varGroups = ["base", "abl", "talent", "exp", "mark", "palam", "cflag", "cstr", "stain", "tequip", "equip", "juel"];
+      varGroupLoop:
+      for (var i = 0; i < varGroups.length; i++) {
+        var vg = varGroups[i];
+        var vdata = data[vg];
+        if (!vdata) continue;
+        html += '<table class="var-table"><thead><tr><th>' + vg.toUpperCase() +
+          '</th><th>值</th></tr></thead><tbody>';
+        if (Array.isArray(vdata)) {
+          var shown = 0;
+          for (var j = 0; j < vdata.length && shown < 20; j++) {
+            if (vdata[j] !== 0 && vdata[j] !== "" && vdata[j] !== null) {
+              html += '<tr><td>' + j + '</td><td>' + vdata[j] + '</td></tr>';
+              shown++;
+            }
+          }
+          if (shown === 0) html += '<tr><td colspan="2" style="color:var(--text-muted)">全部为零</td></tr>';
+        } else if (typeof vdata === "object") {
+          var keys = Object.keys(vdata);
+          var shown2 = 0;
+          for (var k = 0; k < keys.length && shown2 < 20; k++) {
+            var val = vdata[keys[k]];
+            if (val !== 0 && val !== "" && val !== null) {
+              html += '<tr><td>' + keys[k] + '</td><td>' + val + '</td></tr>';
+              shown2++;
+            }
+          }
+          if (shown2 === 0) html += '<tr><td colspan="2" style="color:var(--text-muted)">全部为零</td></tr>';
+        }
+        html += '</tbody></table>';
+      }
+      detail.innerHTML = html;
+    }).catch(function(){});
+  }
+
+  function refreshVariables() {
+    var varNames = ["MONEY", "DAY", "TIME", "TARGET", "MASTER", "ASSI", "SELECTCOM", "PREVCOM",
+      "CHARANUM", "PLAYER", "RESULT"];
+    allVariables = [];
+    var pending = varNames.length;
+    varNames.forEach(function(name) {
+      fetch("/api/variables/" + name).then(function(r) { return r.json(); }).then(function(data) {
+        if (!data.error) { allVariables.push(data); }
+        pending--;
+        if (pending === 0) { renderVariableList(); }
+      }).catch(function() {
+        pending--;
+        if (pending === 0) { renderVariableList(); }
+      });
+    });
+  }
+
+  function renderVariableList() {
+    var list = document.getElementById("varList");
+    var filter = document.getElementById("varSearchInput").value.toUpperCase();
+    var filtered = allVariables.filter(function(v) {
+      return !filter || v.name.toUpperCase().indexOf(filter) >= 0;
+    });
+    list.innerHTML = filtered.map(function(v) {
+      var displayVal = v.value;
+      if (typeof displayVal === "object") displayVal = JSON.stringify(displayVal);
+      return '<div class="var-list-item" onclick="UI.editVariable(\'' + v.name + '\')">' +
+        '<span class="var-name">' + v.name + '</span>' +
+        '<span class="var-val">' + displayVal + '</span></div>';
+    }).join("");
+  }
+
+  function filterVariables() { renderVariableList(); }
+
+  function editVariable(name) {
+    var val = prompt("设置 " + name + " 的值:");
+    if (val === null) return;
+    fetch("/api/variables/" + name, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({value: parseInt(val, 10) || val})
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.success) { showToast("已更新 " + name, "success"); refreshVariables(); }
+      else { showToast(data.error || "更新失败", "error"); }
+    }).catch(function() { showToast("请求失败", "error"); });
+  }
+
+  function refreshFunctions() {
+    fetch("/api/functions").then(function(r) { return r.json(); }).then(function(data) {
+      allFunctions = data.functions || [];
+      renderFunctionList();
+    }).catch(function(){});
+  }
+
+  function renderFunctionList() {
+    var list = document.getElementById("funcList");
+    var filter = document.getElementById("funcSearchInput").value.toUpperCase();
+    var filtered = allFunctions.filter(function(f) {
+      return !filter || f.name.toUpperCase().indexOf(filter) >= 0;
+    });
+    list.innerHTML = filtered.map(function(f) {
+      var tags = [];
+      if (f.is_event) tags.push("EVENT");
+      if (f.is_system) tags.push("SYS");
+      if (f.is_function) tags.push("F");
+      if (f.is_functions) tags.push("S");
+      return '<div class="func-item"><span class="fname">' + f.name +
+        '</span><span class="finfo">' + tags.join("|") + ' params:' +
+        f.parameter_count + ' calls:' + f.call_count + '</span></div>';
+    }).join("");
+  }
+
+  function filterFunctions() { renderFunctionList(); }
+
+  function llmGenerate() {
+    var action = document.getElementById("llmAction").value;
+    var eventType = document.getElementById("llmEventType").value;
+    var targetId = parseInt(document.getElementById("llmTargetId").value, 10) || 0;
+    addChatMsg("user", "生成请求: " + action + " - " + eventType);
+    var endpoint = "/api/llm/";
+    var body = {};
+    if (action === "event" || action === "dialogue" || action === "scene") {
+      endpoint += "generate";
+      body = {event_type: eventType, target_id: targetId};
+    } else if (action === "script") {
+      endpoint += "script";
+      body = {action: "generate", function_name: eventType, description: eventType};
+    } else if (action === "debug") {
+      endpoint += "debug";
+      body = {action: "explain", source_code: eventType, question: "请解释这段代码"};
+    }
+    fetch(endpoint, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(body)
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.result) { addChatMsg("assistant", data.result); }
+      else if (data.explanation) { addChatMsg("assistant", data.explanation); }
+      else if (data.error) { addChatMsg("assistant", "错误: " + data.error); }
+      else { addChatMsg("assistant", JSON.stringify(data)); }
+    }).catch(function(e) { addChatMsg("assistant", "请求失败: " + e.message); });
+  }
+
+  function llmChat() {
+    var input = document.getElementById("chatInput");
+    var msg = input.value.trim();
+    if (!msg) return;
+    addChatMsg("user", msg);
+    input.value = "";
+    fetch("/api/llm/generate", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({event_type: "custom", custom_prompt: msg, target_id: 0})
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.result) { addChatMsg("assistant", data.result); }
+      else if (data.error) { addChatMsg("assistant", "错误: " + data.error); }
+    }).catch(function(e) { addChatMsg("assistant", "请求失败: " + e.message); });
+  }
+
+  function addChatMsg(role, content) {
+    var container = document.getElementById("chatMessages");
+    var div = document.createElement("div");
+    div.className = "chat-msg " + role;
+    var roleLabel = role === "user" ? "你" : "AI";
+    div.innerHTML = '<div class="role">' + roleLabel + '</div><div class="bubble">' +
+      escapeHtml(content) + '</div>';
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function saveGame() {
+    fetch("/api/save", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({slot: 1})
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.success) { showToast("保存成功", "success"); }
+      else { showToast(data.error || "保存失败", "error"); }
+    }).catch(function() { showToast("保存请求失败", "error"); });
+  }
+
+  function showLoadModal() {
+    var grid = document.getElementById("saveSlotGrid");
+    var html = "";
+    for (var i = 1; i <= 10; i++) {
+      html += '<div class="save-slot" onclick="UI.loadGame(' + i + ')">' +
+        '<div class="slot-num">' + i + '</div>' +
+        '<div class="slot-info">存档 ' + i + '</div></div>';
+    }
+    grid.innerHTML = html;
+    document.getElementById("loadModal").classList.add("show");
+  }
+
+  function closeLoadModal() {
+    document.getElementById("loadModal").classList.remove("show");
+  }
+
+  function loadGame(slot) {
+    fetch("/api/load", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({slot: slot})
+    }).then(function(r) { return r.json(); }).then(function(data) {
+      if (data.success) { showToast("加载成功", "success"); closeLoadModal(); refreshStatus(); }
+      else { showToast(data.error || "加载失败", "error"); }
+    }).catch(function() { showToast("加载请求失败", "error"); });
+  }
+
+  function saveSettings() {
+    showToast("LLM配置已保存到本地", "success");
+    var config = {
+      endpoint: document.getElementById("settLlmEndpoint").value,
+      key: document.getElementById("settLlmKey").value,
+      model: document.getElementById("settLlmModel").value,
+      temperature: parseFloat(document.getElementById("settLlmTemp").value),
+      maxTokens: parseInt(document.getElementById("settLlmMaxTokens").value, 10)
+    };
+    try { localStorage.setItem("llm_config", JSON.stringify(config)); } catch(e) {}
+  }
+
+  function loadSettingsFromStorage() {
+    try {
+      var saved = localStorage.getItem("llm_config");
+      if (saved) {
+        var config = JSON.parse(saved);
+        if (config.endpoint) document.getElementById("settLlmEndpoint").value = config.endpoint;
+        if (config.key) document.getElementById("settLlmKey").value = config.key;
+        if (config.model) document.getElementById("settLlmModel").value = config.model;
+        if (config.temperature) document.getElementById("settLlmTemp").value = config.temperature;
+        if (config.maxTokens) document.getElementById("settLlmMaxTokens").value = config.maxTokens;
+      }
+    } catch(e) {}
+  }
+
+  function applyDisplaySettings() {
+    var fontSize = document.getElementById("settFontSize").value;
+    var accentColor = document.getElementById("settAccentColor").value;
+    document.getElementById("consoleOutput").style.fontSize = fontSize + "px";
+    document.documentElement.style.setProperty("--accent-red", accentColor);
+    showToast("显示设置已应用", "success");
+    try {
+      localStorage.setItem("display_settings", JSON.stringify({fontSize: fontSize, accentColor: accentColor}));
+    } catch(e) {}
+  }
+
+  function loadDisplaySettings() {
+    try {
+      var saved = localStorage.getItem("display_settings");
+      if (saved) {
+        var settings = JSON.parse(saved);
+        if (settings.fontSize) {
+          document.getElementById("settFontSize").value = settings.fontSize;
+          document.getElementById("consoleOutput").style.fontSize = settings.fontSize + "px";
+        }
+        if (settings.accentColor) {
+          document.getElementById("settAccentColor").value = settings.accentColor;
+          document.documentElement.style.setProperty("--accent-red", settings.accentColor);
+        }
+      }
+    } catch(e) {}
+  }
+
+  function showToast(msg, type) {
+    var container = document.getElementById("toastContainer");
+    var toast = document.createElement("div");
+    toast.className = "toast " + (type || "info");
+    toast.textContent = msg;
+    container.appendChild(toast);
+    setTimeout(function() {
+      toast.style.opacity = "0";
+      toast.style.transition = "opacity 0.3s";
+      setTimeout(function() { container.removeChild(toast); }, 300);
+    }, 3000);
+  }
+
+  loadSettingsFromStorage();
+  loadDisplaySettings();
+  document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState !== "loading") { init(); }
+
+  return {
+    navigate: navigate,
+    toggleSidebar: toggleSidebar,
+    toggleAutoScroll: toggleAutoScroll,
+    toggleNumpad: toggleNumpad,
+    clearConsole: clearConsole,
+    sendInput: sendInput,
+    sendValue: sendValue,
+    selectCharacter: selectCharacter,
+    refreshVariables: refreshVariables,
+    filterVariables: filterVariables,
+    editVariable: editVariable,
+    refreshFunctions: refreshFunctions,
+    filterFunctions: filterFunctions,
+    llmGenerate: llmGenerate,
+    llmChat: llmChat,
+    saveGame: saveGame,
+    showLoadModal: showLoadModal,
+    closeLoadModal: closeLoadModal,
+    loadGame: loadGame,
+    saveSettings: saveSettings,
+    applyDisplaySettings: applyDisplaySettings,
+  };
+})();
+</script>
+</body>
+</html>

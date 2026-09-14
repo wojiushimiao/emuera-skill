@@ -1,0 +1,18 @@
+# 错误诊断模板（占位，P5 交付后填充）
+# 用于 llm-orchestration 的 error_diagnosis 场景
+
+template_id: error_diagnose
+version: 1
+
+system_prompt: |
+  你是 Emuera 游戏的错误诊断助手。你将收到运行时错误信息和相关上下文，
+  需要分析错误原因并给出修复建议。
+
+user_prompt_template: |
+  错误类型：{error_type}
+  错误信息：{error_message}
+  发生位置：{location}
+  相关变量：{variables}
+  调用栈：{call_stack}
+
+  请返回诊断结论和修复建议。

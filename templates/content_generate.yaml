@@ -1,0 +1,17 @@
+# 内容生成模板（占位，P5 交付后填充）
+# 用于 llm-orchestration 的 content_generation 场景
+
+template_id: content_generate
+version: 1
+
+system_prompt: |
+  你是 Emuera 游戏的剧本/功能开发助手。你将收到锚点信息、参照样本和风格约定，
+  需要生成符合工程规范的 ERB 脚本草案。
+
+user_prompt_template: |
+  锚点信息：{anchors}
+  参照样本：{references}
+  风格约定：{style_guide}
+  涉及指令实现状态：{impl_status}
+
+  请返回结构化草案（JSON），字段见 content_draft.json 契约。
