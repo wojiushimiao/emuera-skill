@@ -6,24 +6,20 @@
 
 import sys
 import os
+import threading
+import time
 import hashlib
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-# 内核路径解析：优先部署包内 kernel/src/，回退原工程路径
-# 部署包：emuera_skill/kernel_bridge/engine.py → parent.parent.parent / kernel / src
-# 开发版：src/kernel_bridge/engine.py → parent.parent.parent.parent / era红魔馆NTRplusplus/解释器/src
+# 内核路径：合并工程中内核与工具包同仓，位于 <工程根>/kernel/src
+# engine.py 在 emuera-skill/emuera_skill/kernel_bridge/engine.py → 上溯三级到工程根
 #
 # 注意：内核内部使用 `from src.engine import ...` 与 `from .core.xxx` 相对导入，
 # 因此必须把 src 的**父目录**加入 sys.path，使 src 成为可导入包，
 # 否则 engine.py 的相对导入会因"无父包"而失败。
-_pkg_root = Path(__file__).parent.parent.parent
-_release_kernel = _pkg_root / "kernel" / "src"
-if _release_kernel.is_dir() and (_release_kernel / "engine.py").exists():
-    _kernel_src = _release_kernel
-else:
-    _kernel_src = _pkg_root.parent / "era红魔馆NTRplusplus" / "解释器" / "src"
+_kernel_src = Path(__file__).parent.parent.parent / "kernel" / "src"
 
 # src 的父目录（使 src 成为包，支撑 from src.engine import ...）
 _kernel_parent = _kernel_src.parent
@@ -61,11 +57,15 @@ class Snapshot:
     game_dir: str
 
 
-def assemble_engine(game_dir: str) -> EngineHandle:
+def assemble_engine(game_dir: str, stall_timeout_s=None, on_progress=None) -> EngineHandle:
     """
-    装配引擎。
-    按内核实际初始化顺序：实例化 → 初始化。
-    只调用 ERBEngine 公开方法。
+    装配引擎。按内核实际初始化顺序：实例化 → 初始化。只调用 ERBEngine 公开方法。
+
+    进度判别（决策②）：
+    - 始终向内核注入 progress_callback，逐文件上报 (phase, done, total)；
+    - 仅当 stall_timeout_s > 0 时启动“停滞看门狗”：解析进度停滞超过该秒数才置位 abort_event，
+      由内核在文件边界优雅中止；不设任何总时长硬上限（<=0 或 None = 不限时）。
+    - 中止时返回部分结果（降级），metadata["aborted"] 标记。
 
     端口：assemble_engine (L2 04 §2)
     """
@@ -73,32 +73,58 @@ def assemble_engine(game_dir: str) -> EngineHandle:
     if not game_path.exists():
         raise make_error(KB_001, context=f"游戏目录不存在: {game_dir}")
 
-    # 导入内核公开类
     try:
         from src.engine import ERBEngine
     except ImportError:
         from engine import ERBEngine
 
+    abort_event = threading.Event()
+    progress = {"ts": time.monotonic(), "phase": "init", "done": 0, "total": 0}
+
+    def _progress(phase, done, total):
+        progress["ts"] = time.monotonic()
+        progress["phase"] = phase
+        progress["done"] = done
+        progress["total"] = total
+        if on_progress is not None:
+            try:
+                on_progress(phase, done, total)
+            except Exception:
+                pass
+
+    stop_watch = threading.Event()
+    watcher = None
+    if stall_timeout_s and stall_timeout_s > 0:
+        def _watch():
+            interval = max(0.5, min(5.0, stall_timeout_s / 4.0))
+            while not stop_watch.wait(interval):
+                if time.monotonic() - progress["ts"] > stall_timeout_s:
+                    abort_event.set()
+                    return
+        watcher = threading.Thread(target=_watch, name="emuera-assembly-stall-watchdog", daemon=True)
+        watcher.start()
+
     try:
-        # 实例化引擎
-        engine = ERBEngine(game_dir)
-
-        # 执行初始化（加载 CSV、解析 ERB、注册函数）
+        engine = ERBEngine(game_dir, abort_event=abort_event, progress_callback=_progress)
         engine.initialize()
-
-        # 收集元数据
         metadata = {
             "game_dir": game_dir,
             "function_count": len(engine.function_dispatch._functions) if engine.function_dispatch else 0,
             "program_count": len(engine._programs) if hasattr(engine, '_programs') else 0,
             "parse_error_count": len(engine._parse_errors) if hasattr(engine, '_parse_errors') else 0,
             "variable_count": len(engine.variable_mgr._descriptors) if engine.variable_mgr else 0,
+            "aborted": abort_event.is_set(),
+            "progress_phase": progress["phase"],
+            "progress_done": progress["done"],
+            "progress_total": progress["total"],
         }
-
         return EngineHandle(engine=engine, metadata=metadata)
-
     except Exception as e:
         raise make_error(KB_003, context=f"装配失败: {e}")
+    finally:
+        stop_watch.set()
+        if watcher is not None:
+            watcher.join(timeout=1.0)
 
 
 def capture_snapshot(handle: EngineHandle) -> Snapshot:

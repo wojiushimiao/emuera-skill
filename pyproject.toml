@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "emuera-skill"
-version = "1.2.0"
+version = "1.2.1"
 description = "Emuera 脚本游戏开发、调试、游玩工具包 — 内置完整 Python 版 ERB 解释器内核"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -21,7 +21,7 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
-# 仅当使用内核的 LLM 桥接（kernel_src/llm）或 Web 服务（kernel_src/web）时需要
+# 仅当使用内核的 LLM 桥接（kernel/src/llm）或 Web 服务（kernel/src/web）时需要
 llm = ["aiohttp>=3.9.0"]
 web = ["aiohttp>=3.9.0"]
 full = ["aiohttp>=3.9.0"]
@@ -30,6 +30,9 @@ full = ["aiohttp>=3.9.0"]
 emuera-skill = "emuera_skill.interface.cli:cli_main"
 emuera-skill-mcp = "emuera_skill.mcp_server.server:run_stdio_server"
 
+# 说明：内核位于工程根下的 kernel/src（保留 `src` 包层），由
+# emuera_skill/kernel_bridge/engine.py 通过相对路径定位并注入 sys.path，
+# 因此 kernel/ 必须与本包同级保留，不通过 setuptools 安装。
 [tool.setuptools]
 packages = ["emuera_skill"]
 

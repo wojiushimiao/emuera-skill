@@ -88,7 +88,7 @@ def run_pipeline_a(
     probe_structure(game_dir)
 
     # 4. 引擎装配
-    handle = assemble_engine(game_dir)
+    handle = assemble_engine(game_dir, stall_timeout_s=getattr(config, "assembly_stall_timeout_s", 0))
 
     # 5. 快照抓取
     snapshot = capture_snapshot(handle)

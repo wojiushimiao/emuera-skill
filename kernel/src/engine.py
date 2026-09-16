@@ -38,9 +38,15 @@ class MonitorEvent:
 
 class ERBEngine:
 
-    def __init__(self, game_dir: str, llm_config: LLMConfig | None = None, monitor_log: str | None = None):
+    def __init__(self, game_dir: str, llm_config: LLMConfig | None = None, monitor_log: str | None = None,
+                 abort_event: Any = None, progress_callback: Any = None):
         self.game_dir = game_dir
         self.llm_config = llm_config
+        # 协作式装配控制（可选，向后兼容）：
+        #   abort_event       —— 任何带 .is_set() 的对象（如 threading.Event）；置位后在文件边界优雅中止
+        #   progress_callback —— callable(phase, done, total)；用于外部按“进度”而非“墙钟”判别健康度
+        self._abort_event = abort_event
+        self._progress_callback = progress_callback
         self.variable_mgr: VariableManager | None = None
         self.lexer: Lexer | None = None
         self.parser: Parser | None = None
@@ -71,6 +77,22 @@ class ERBEngine:
                 f.write(f"[{time.strftime('%H:%M:%S', time.localtime(event.timestamp))}] [{category}] {message}\n")
                 if detail:
                     f.write(f"  {detail}\n")
+
+    def _emit_progress(self, phase: str, done: int, total: int) -> None:
+        """协作式进度上报：向可选的 progress_callback 发出 (phase, done, total)。
+        回调内部异常一律吞掉，绝不影响装配主流程。"""
+        cb = self._progress_callback
+        if cb is None:
+            return
+        try:
+            cb(phase, done, total)
+        except Exception:
+            pass
+
+    def _abort_requested(self) -> bool:
+        """协作式中止检查：外部通过 abort_event 请求中止装配。"""
+        ev = self._abort_event
+        return ev is not None and ev.is_set()
 
     def get_monitor_report(self) -> dict[str, Any]:
         errors = [e for e in self._monitor_events if e.category in ("ERROR", "PARSE_ERROR", "RUNTIME_ERROR")]
@@ -103,6 +125,7 @@ class ERBEngine:
                 self._log_event("INFO", f"CSV loaded: {len(self.csv_loader.name_maps)} name maps")
             except Exception as e:
                 self._log_event("ERROR", "CSV loading failed", traceback.format_exc())
+        self._emit_progress("csv", 1, 1)
 
         for var_name, name_map in self.csv_loader.name_maps.items():
             desc = self.variable_mgr.get_descriptor(var_name)
@@ -129,6 +152,7 @@ class ERBEngine:
                 self._log_event("INFO", "ERH processing completed")
             except Exception as e:
                 self._log_event("ERROR", "ERH processing failed", traceback.format_exc())
+        self._emit_progress("erh", 1, 1)
 
         erb_sources: dict[str, str] = {}
         if os.path.isdir(erb_dir):
@@ -154,8 +178,12 @@ class ERBEngine:
         file_count = len(erb_sources)
         progress_interval = max(1, file_count // 20)
         for idx, (filepath, source) in enumerate(erb_sources.items()):
+            if self._abort_requested():
+                self._log_event("WARNING", f"Assembly aborted by request at {idx}/{file_count}")
+                break
             if idx % progress_interval == 0:
                 self._log_event("PROGRESS", f"Parsing ERB files: {idx}/{file_count} ({idx*100//file_count}%)")
+            self._emit_progress("parse", idx + 1, file_count)
             try:
                 tokens = self.lexer.tokenize(source, filepath)
                 parser = Parser(self.variable_mgr)

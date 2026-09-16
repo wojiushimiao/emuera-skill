@@ -4,42 +4,42 @@
 
 ### 工程体检
 ```bash
-emuera-skill --game-dir <游戏目录> scan
+python run_cli.py scan --game-dir <游戏目录>
 ```
 
 ### 图谱分析
 ```bash
-emuera-skill --game-dir <游戏目录> graph build
+python run_cli.py graph --game-dir <游戏目录>
 ```
 
 ### 缺口分析
 ```bash
-emuera-skill --game-dir <游戏目录> gap
+python run_cli.py gap --game-dir <游戏目录>
 ```
 
 ### 无头运行
 ```bash
-emuera-skill --game-dir <游戏目录> run --entry SYSTEM_TITLE --timeout 60
+python run_cli.py run --entry SYSTEM_TITLE --timeout 60 --game-dir <游戏目录>
 ```
 
 ### 调试会话
 ```bash
-emuera-skill --game-dir <游戏目录> debug start
+python run_cli.py debug --game-dir <游戏目录>
 ```
 
 ### 开发辅助
 ```bash
-emuera-skill --game-dir <游戏目录> author --query EVENT_TRAIN
+python run_cli.py author --query EVENT_TRAIN --game-dir <游戏目录>
 ```
 
 ### 游玩
 ```bash
-emuera-skill --game-dir <游戏目录> play start
+python run_cli.py play --game-dir <游戏目录>
 ```
 
 ### 知识库查询
 ```bash
-emuera-skill --game-dir <游戏目录> kb --mnemonic PRINT
+python run_cli.py kb --mnemonic PRINT --game-dir <游戏目录>
 ```
 
 ## Playbook
@@ -98,7 +98,7 @@ emuera-skill --game-dir ./my_game kb --mnemonic PRINT
 
 ```bash
 # 启动 stdio MCP Server
-python -m mcp_server.server
+python -m emuera_skill.mcp_server.server
 ```
 
 工具列表：

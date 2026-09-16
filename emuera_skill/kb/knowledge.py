@@ -10,7 +10,7 @@
 
 权威来源：
   - 117 条语句指令取自内核
-      era红魔馆NTRplusplus/解释器/src/core/parser.py::_STATEMENT_STARTERS (L2 04 §5)
+      emuera-skill/kernel/src/core/parser.py::_STATEMENT_STARTERS (L2 04 §5)
   - 实现状态分类（已实现/静默丢弃/复活候选/NOOP）取自 P2 缺口分析账本的仲裁结果
       src/gap_analysis/analyzer.py::COMMAND_TYPE_GAPS / COMMAND_REVIVAL_CANDIDATES
 """

@@ -286,7 +286,7 @@ def _handle_capability() -> Dict[str, Any]:
         "kernel_bridge", "runtime", "code_graph", "guard",
     ]:
         try:
-            __import__(name)
+            __import__("emuera_skill." + name)
             subsystems[name] = True
         except Exception:
             subsystems[name] = False
@@ -355,7 +355,7 @@ def cli_main(argv: List[str] = None) -> int:
 
     if not argv:
         print("用法: emuera-skill <command> [options]")
-        print("命令: scan, graph, gap, run, debug, author, play, polish, capability, kb")
+        print("命令: scan, snapshot, graph, gap, run, debug, author, validate, impact, play, polish, capability, kb")
         return 1
 
     # 程序名（脚本路径）不参与命令解析

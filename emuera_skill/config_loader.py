@@ -23,6 +23,7 @@ class Config:
     """配置结构，对齐 COMMON §2.4"""
     encoding_fallback: List[str] = field(default_factory=lambda: ["utf-8", "shift-jis", "gbk"])
     run_timeout_s: int = 60
+    assembly_stall_timeout_s: int = 0
     output_root: str = "./emuera-skill-out"
     default_input: str = ""
     render_text_len: int = 2000
@@ -124,6 +125,10 @@ def load_config(
         val = raw["run_timeout_s"]
         if isinstance(val, (int, float)) and val > 0:
             config.run_timeout_s = int(val)
+    if "assembly_stall_timeout_s" in raw:
+        val = raw["assembly_stall_timeout_s"]
+        if isinstance(val, (int, float)) and val >= 0:
+            config.assembly_stall_timeout_s = int(val)
     if "output_root" in raw:
         config.output_root = str(raw["output_root"])
     if "default_input" in raw:

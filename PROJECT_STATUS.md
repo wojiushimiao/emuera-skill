@@ -18,25 +18,25 @@
 
 ## 测试总结
 
-- **总测试数**：70 通过 / 1 错误（P2 旧问题）
-- **P3/P4/P5/P6/P7/P8**：53/53 全部通过
+- **总测试数**：83 通过 / 1 跳过（0 失败）
+- **内核零侵入基线**：297 个文件哈希快照（`tests/.kernel_baseline.json`）
 
 ## 交付物
 
 ### 核心模块
-- `src/kernel_bridge/` - 内核桥接
-- `src/ingestion/` - 文档摄取
-- `src/code_graph/` - 代码图谱
-- `src/gap_analysis/` - 缺口分析
-- `src/runtime/` - 无头运行
-- `src/player_session/` - 玩家会话
-- `src/debug/` - 调试会话
-- `src/authoring/` - 开发辅助
-- `src/llm_orchestration/` - 模型编排
-- `src/kb/` - 知识库
-- `src/interface/` - CLI 接口
-- `src/preset/` - 预设聚合
-- `src/mcp_server/` - MCP Server
+- `emuera_skill/kernel_bridge/` - 内核桥接
+- `emuera_skill/ingestion/` - 文档摄取
+- `emuera_skill/code_graph/` - 代码图谱
+- `emuera_skill/gap_analysis/` - 缺口分析
+- `emuera_skill/runtime/` - 无头运行
+- `emuera_skill/player_session/` - 玩家会话
+- `emuera_skill/debug/` - 调试会话
+- `emuera_skill/authoring/` - 开发辅助
+- `emuera_skill/llm_orchestration/` - 模型编排
+- `emuera_skill/kb/` - 知识库
+- `emuera_skill/interface/` - CLI 接口
+- `emuera_skill/preset/` - 预设聚合
+- `emuera_skill/mcp_server/` - MCP Server
 
 ### 文档
 - `SKILL.md` - 操作指引
@@ -46,6 +46,15 @@
 - `pipeline_a.py` - P-A 管线
 - `pipeline_bc.py` - P-B/C 管线
 - `pipeline_d.py` - P-D 管线
+
+## 工程结构（合并后）
+
+合并日期：**2026-09-16**。本仓库现为一个合并工程，同时包含 Emuera Python 内核与 Emuera-SKILL 工具包。
+
+- `kernel/`：Emuera Python 解释器内核（原 `era红魔馆NTRplusplus/解释器` 全部内容）。保持 `src` 包层（`core/ io/ loader/ llm/ web/` + `engine.py`）；内核相对导入维持 `from src.engine import ERBEngine`。
+- `emuera_skill/`：工具包（原 `src/`），导入名现为 **`emuera_skill`**。13 个子包 + 8 个顶层模块（`__init__.py config_loader.py errors.py guard.py output_dir.py pipeline_a.py pipeline_bc.py pipeline_d.py`）。
+- `emuera_skill/kernel_bridge/engine.py`：解析到 `<工程根>/kernel/src`，并把 `kernel/` 加入 `sys.path`，使内核相对导入可工作。
+- 工具层测试位于开发仓库根 `tests/`（含 `.kernel_baseline.json` 内核零侵入基线）；部署包内不含测试。
 
 ## 下一步
 

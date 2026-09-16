@@ -4,12 +4,12 @@
 用法:
     python run_mcp_server.py
 
-配置到 MCP 客户端（如 Claude Desktop）:
+配置到 MCP 客户端:
     {
       "mcpServers": {
         "emuera-skill": {
           "command": "python",
-          "args": ["<部署包路径>/run_mcp_server.py"]
+          "args": ["D:/ERA红魔馆改/emuera-skill/run_mcp_server.py"]
         }
       }
     }
@@ -17,7 +17,7 @@
 import sys
 import os
 
-# 将部署包根目录加入 sys.path，使 emuera_skill 成为可导入包
+# 将工程根加入 sys.path，使 emuera_skill 成为可导入包
 _root = os.path.dirname(os.path.abspath(__file__))
 if _root not in sys.path:
     sys.path.insert(0, _root)

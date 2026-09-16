@@ -10,6 +10,10 @@ encoding_fallback:
 # 单次模拟运行超时（秒）
 run_timeout_s: 60
 
+# 装配期“进度停滞”看门狗（秒）：仅在解析进度停滞超过该秒数时才中止（进度恢复即重置），
+# 不是总时长上限；0 = 禁用（默认，即不设任何时间限制）
+assembly_stall_timeout_s: 0
+
 # 产物根目录（工程之外）
 output_root: ./emuera-skill-out
 

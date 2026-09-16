@@ -2,7 +2,7 @@
 
 Emuera 脚本游戏开发、调试、游玩工具包 —— **内置完整 Python 版 ERB 解释器内核**，开箱即用。
 
-**版本**：v1.2.0 ｜ **Python**：≥ 3.11 ｜ **核心依赖**：零（纯标准库）
+**版本**：v1.2.1 ｜ **Python**：≥ 3.11 ｜ **核心依赖**：零（纯标准库）
 
 ## 功能特性
 
@@ -28,7 +28,7 @@ python run_cli.py --game-dir <游戏目录> <命令>
 python run_cli.py
 ```
 
-命令：`scan, graph, gap, run, debug, author, play, polish, capability, kb`
+命令：`scan, snapshot, graph, gap, run, debug, author, validate, impact, play, polish, capability, kb`
 
 ### 安装为命令行工具
 
@@ -131,12 +131,17 @@ pip install "aiohttp>=3.9.0"   # 或 pip install -e ".[full]"
 
 ## 内核路径解析
 
-`emuera_skill/kernel_bridge/engine.py` 自动定位内核，优先使用部署包内置的 `kernel/src/`，未找到时回退到开发工程路径（`../era红魔馆NTRplusplus/解释器/src`）。
+`emuera_skill/kernel_bridge/engine.py` 以自身位置**上溯三级**定位内核：`<部署包根>/kernel/src`。
 
-内核内部使用 `from src.engine import ...` 与包内相对导入，因此部署包保留 `kernel/src/` 的 `src` 包名层级，**内核源码零修改**即可运行。
+它会把 `kernel/`（即 `src` 的父目录）与 `kernel/src` 一并加入 `sys.path`，使内核内部的
+`from src.engine import ...` 与包内相对导入（`from .core.xxx`）均可工作。
+
+因此部署包保留 `kernel/src/` 的 `src` 包层级，**内核源码零修改**即可运行。
+部署时须保持 `kernel/` 与 `emuera_skill/` 同级。
 
 ## 版本
 
+- **v1.2.1 (2026-09-16)**：工程结构合并 —— 内核并入 `kernel/`、工具包改名为 `emuera_skill/`，内核与工具同树迭代调试；内核获授权新增装配进度回调与中止钩子（`abort_event` / `progress_callback`）；CLI 帮助补齐至 13 命令；修复 `capability` 子系统探测与 MCP 模块路径；`__version__` 与 MCP `serverInfo` 统一
 - **v1.2.0 (2026-09-15)**：内置完整 Python 内核（含 llm/、web/）；同步最新源码（8 个模块更新）；修正内核包层级与导入路径
 - v1.1.0 (2026-09-09)：首个发布版，内核仅含核心子集（core/io/loader）
 - v1.0.0 (2026-09-06)：初始版本

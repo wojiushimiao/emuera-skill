@@ -182,7 +182,7 @@ class MCPServer:
             "result": {
                 "protocolVersion": "2024-11-05",
                 "capabilities": {"tools": {}, "resources": {}},
-                "serverInfo": {"name": "emuera-skill", "version": "1.2.0"},
+                "serverInfo": {"name": "emuera-skill", "version": "1.2.1"},
             },
         }
 
