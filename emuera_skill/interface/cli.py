@@ -293,6 +293,29 @@ def _handle_capability() -> Dict[str, Any]:
     caps["subsystems"] = subsystems
     caps["available_count"] = sum(1 for v in subsystems.values() if v)
 
+    # 跨函数语义校验能力声明（SEMA 系列，装配后自动执行，诊断以 WARNING 落
+    # 监控事件 + 快照 semantic_warnings；实机测试前把"编译 0 错但加载中止"类
+    # 问题完整暴露）
+    caps["semantic_check_capability"] = {
+        "available": True,
+        "rules": [
+            "SEMA-01 参数名必须是 ARG/ARGS 或私有变量（C# ErbLoader.cs:556-599）",
+            "SEMA-02 普通 CALL 调 #FUNCTION 函数（C# Process.CalledFunction.cs:119）",
+            "SEMA-03 #FUNCTION 函数体内使用普通 CALL（C# ErbLoader.cs:873）",
+            "SEMA-04 无 #FUNCTION 函数作表达式项（C# IdentifierDictionary.cs:590-592）",
+            "SEMA-05 同函数内 #DIM 重复声明（C# LogicalLineParser.cs:254-264）",
+            "SEMA-06 使用未 #DIM 声明的局部变量",
+            "SEMA-07 #FUNCTION 内使用非 METHOD_SAFE 指令（INPUT/WAIT 族、BEGIN）",
+        ],
+        "exposure": [
+            "engine.run_semantic_checks() / get_semantic_warnings()",
+            "engine.get_monitor_report()['semantic_warnings']",
+            "Snapshot.semantic_warnings",
+            "run_cli.py scan → summary.semantic_warnings",
+            "preset project-checkup → summary.semantic_warnings",
+        ],
+    }
+
     return caps
 
 

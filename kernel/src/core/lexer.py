@@ -126,6 +126,7 @@ _KEYWORD_MAP: dict[str, TokenType] = {
     'PRINTSINGLEFORMS': TokenType.PRINTSINGLEFORMS,
     'PRINTPLAINFORM': TokenType.PRINTPLAINFORM,
     'PRINTPLAIN': TokenType.PRINTPLAIN,
+    'ENCODETOUNI': TokenType.PRINTFORM,
     'HTML_PRINT': TokenType.HTML_PRINT,
     'ALIGNMENT': TokenType.ALIGNMENT,
     'RESETCOLOR': TokenType.RESETCOLOR,
@@ -204,6 +205,8 @@ _TWO_CHAR_OPS: dict[str, TokenType] = {
     '>>': TokenType.RSHIFT,
     '&&': TokenType.AND,
     '||': TokenType.OR,
+    '!&': TokenType.NAND,
+    '!|': TokenType.NOR,
     '+=': TokenType.PLUS_ASSIGN,
     '-=': TokenType.MINUS_ASSIGN,
     '*=': TokenType.STAR_ASSIGN,
@@ -219,6 +222,7 @@ _TWO_CHAR_OPS: dict[str, TokenType] = {
 _ONE_CHAR_OPS: dict[str, TokenType] = {
     '+': TokenType.PLUS,
     '-': TokenType.MINUS,
+    '－': TokenType.MINUS,   # 全角减号 U+FF10 → 与 ASCII - 等价
     '*': TokenType.STAR,
     '/': TokenType.SLASH,
     '%': TokenType.PERCENT,
@@ -247,6 +251,7 @@ _RE_IDENTIFIER = re.compile(r'[\w／￥％：（）～「」？・＿＝＆！�
 _RE_INTEGER = re.compile(r'[0-9]+')
 _RE_FLOAT = re.compile(r'[0-9]+\.[0-9]+')
 _RE_HEX = re.compile(r'0[xX][0-9a-fA-F]+')
+_RE_SCIENTIFIC = re.compile(r'[0-9]+\.?[0-9]*[eE][+-]?[0-9]+')
 _RE_IF_DEBUG_START = re.compile(r'\[IF[_ ]DEBUG\]', re.IGNORECASE)
 _RE_SKIP_DIRECTIVE = re.compile(r'\[(SKIPSTART|SKIPEND)\]', re.IGNORECASE)
 _RE_SKIPEND = re.compile(r'\[SKIPEND\]', re.IGNORECASE)
@@ -749,6 +754,15 @@ class Lexer:
                     continue
 
             if '0' <= ch <= '9':
+                # FIX-1: Try scientific notation first (e.g. 1E6, 1.5e-3)
+                sci_match = _RE_SCIENTIFIC.match(line, pos)
+                if sci_match:
+                    tokens.append(Token(
+                        TokenType.FLOAT, float(sci_match.group()),
+                        line_no, pos + 1, self._filename,
+                    ))
+                    pos = sci_match.end()
+                    continue
                 num_match = _RE_FLOAT.match(line, pos)
                 if num_match:
                     tokens.append(Token(

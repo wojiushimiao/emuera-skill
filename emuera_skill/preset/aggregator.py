@@ -45,8 +45,8 @@ def project_checkup(game_dir: str, output_root: str) -> PresetResult:
     start = time.time()
     fingerprint = compute_fingerprint(game_dir)
 
-    # P-A: 快照
-    pa = run_pipeline_a(game_dir)
+    # P-A: 快照（强制刷新，确保拿到最新 SEMA 语义诊断）
+    pa = run_pipeline_a(game_dir, force_refresh=True)
 
     # P-B + P-C: 图谱与缺口
     handle = assemble_engine(game_dir)
@@ -59,6 +59,9 @@ def project_checkup(game_dir: str, output_root: str) -> PresetResult:
         "functions": pa.get("summary", {}).get("functions", 0),
         "variables": pa.get("summary", {}).get("variables", 0),
         "files": pa.get("summary", {}).get("files", 0),
+        "parse_errors": pa.get("summary", {}).get("parse_errors", 0),
+        "semantic_warnings": pa.get("summary", {}).get("semantic_warnings", 0),
+        "semantic_warnings_sample": (pa.get("semantic_warnings") or [])[:10],
         "graph_nodes": bc.get("graph", {}).get("node_count", 0),
         "gaps_total": bc.get("gaps", {}).get("total", 0),
         "implementation_ratio": bc.get("gaps", {}).get("implementation_ratio", 0),

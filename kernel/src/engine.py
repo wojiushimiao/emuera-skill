@@ -75,8 +75,25 @@ class ERBEngine:
         if self._monitor_log_path:
             with open(self._monitor_log_path, "a", encoding="utf-8") as f:
                 f.write(f"[{time.strftime('%H:%M:%S', time.localtime(event.timestamp))}] [{category}] {message}\n")
-                if detail:
-                    f.write(f"  {detail}\n")
+
+    def run_semantic_checks(self) -> list[str]:
+        """对外暴露的语义校验入口（装配后、实机运行前调用）。
+
+        重跑一次跨函数 SEMA 校验并返回诊断清单（纯文本行，每行含规则码与 文件:行号）。
+        引擎 initialize() 已自动执行过一轮；本方法供工具包（scan / project-checkup /
+        capability）在展示"0 解析错误"之外再补充 SEMA 语义层结论。
+        """
+        if self.semantic_analyzer is None or not self._programs:
+            return []
+        diagnostics = self.semantic_analyzer.check_programs(self._programs)
+        self._sema_warnings = list(diagnostics)
+        for diag in diagnostics:
+            self._log_event("WARNING", f"[SEMA] {diag}")
+        return diagnostics
+
+    def get_semantic_warnings(self) -> list[str]:
+        """返回最近一次 SEMA 校验的原始诊断清单（若 initialize 已执行）。"""
+        return list(getattr(self, "_sema_warnings", []))
 
     def _emit_progress(self, phase: str, done: int, total: int) -> None:
         """协作式进度上报：向可选的 progress_callback 发出 (phase, done, total)。
@@ -109,7 +126,26 @@ class ERBEngine:
             "runtime_errors": self._runtime_errors,
             "errors": [{"time": e.timestamp, "msg": e.message, "detail": e.detail} for e in errors],
             "warnings": [{"time": e.timestamp, "msg": e.message, "detail": e.detail} for e in warnings],
+            "semantic_warnings": list(getattr(self, "_sema_warnings", [])),
         }
+
+    def run_semantic_checks(self) -> list[str]:
+        """跨函数语义校验（SEMA 系列），实机测试前完整暴露问题。
+
+        覆盖 7 类硬规则（参数名/#FUNCTION 互斥/#FUNCTION 内 CALL/PROC 表达式项/
+        #DIM 重复/局部变量未声明/#FUNCTION 内非 METHOD_SAFE 指令）。返回诊断清单；
+        命中即按 WARNING 落 _monitor_events，使"编译 0 错但实机中止"类问题在装配后立刻可见。
+        """
+        if not hasattr(self, "semantic_analyzer") or self.semantic_analyzer is None:
+            return []
+        diagnostics = self.semantic_analyzer.check_programs(self._programs)
+        for diag in diagnostics:
+            self._log_event("WARNING", diag)
+        return diagnostics
+
+    def get_semantic_warnings(self) -> list[str]:
+        """返回最近一次语义校验的诊断清单（initialize 内已自动执行一轮）。"""
+        return list(getattr(self, "_sema_warnings", []))
 
     def initialize(self) -> None:
         t0 = time.time()
@@ -201,6 +237,11 @@ class ERBEngine:
         self._log_event("INFO", f"Parsed {total_funcs} functions from {len(self._programs)} programs")
         if self._parse_errors:
             self._log_event("WARNING", f"{len(self._parse_errors)} parse errors encountered")
+
+        # 跨函数语义校验（SEMA 系列）：对齐 C# ErbLoader/LogicalLineParser 的 5 类规则
+        # （参数名/＃FUNCTION 互斥/PROC 表达式项/#DIM 重复/局部变量未声明）。
+        # 诊断以 WARNING 落 _monitor_events——不阻塞装配，但保证实机测试前问题可见。
+        self._sema_warnings = self.run_semantic_checks()
 
         self.function_dispatch = FunctionDispatcher(None)
 

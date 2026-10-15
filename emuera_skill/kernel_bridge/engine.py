@@ -161,11 +161,17 @@ def capture_snapshot(handle: EngineHandle) -> Snapshot:
     # 抓取解析错误
     parse_errors = list(engine._parse_errors) if hasattr(engine, '_parse_errors') else []
 
-    # 语义告警（从监控事件中提取）
-    semantic_warnings = []
-    if hasattr(engine, '_monitor_events'):
+    # 语义告警：优先取引擎 SEMA 跨函数校验的原始清单（engine.get_semantic_warnings），
+    # 缺失时回退到监控事件中的 WARNING（兼容旧内核）。
+    semantic_warnings: List[str] = []
+    if hasattr(engine, "get_semantic_warnings"):
+        try:
+            semantic_warnings = list(engine.get_semantic_warnings() or [])
+        except Exception:
+            semantic_warnings = []
+    if not semantic_warnings and hasattr(engine, "_monitor_events"):
         for event in engine._monitor_events:
-            if hasattr(event, 'category') and event.category == "WARNING":
+            if hasattr(event, "category") and event.category == "WARNING":
                 semantic_warnings.append(event.message)
 
     # 数据字典

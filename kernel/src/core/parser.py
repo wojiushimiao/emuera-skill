@@ -805,6 +805,13 @@ class Parser:
                     return CallNode(function_name="CUSTOMDRAWLINE",
                                   arguments=[LiteralNode(value="==")],
                                   call_type="CUSTOMDRAWLINE")
+                if self._check(TokenType.ASSIGN):
+                    # FIX-R1-1: CUSTOMDRAWLINE = 形式（单 = 作为绘制字符参数）
+                    self._advance()
+                    self._consume_newline_or_eof()
+                    return CallNode(function_name="CUSTOMDRAWLINE",
+                                  arguments=[LiteralNode(value="=")],
+                                  call_type="CUSTOMDRAWLINE")
                 arg = self._parse_expression()
                 self._consume_newline_or_eof()
                 return CallNode(function_name="CUSTOMDRAWLINE", arguments=[arg], call_type="CUSTOMDRAWLINE")
@@ -1001,7 +1008,11 @@ class Parser:
             # Handle trailing comma: stop if at newline or end
             if self._check(TokenType.NEWLINE) or self._is_at_end():
                 break
-            args.append(self._parse_expression())
+            # FIX-2: Handle empty argument (e.g. WALK_DUNGEON ,,,0)
+            if self._check(TokenType.COMMA) or self._check(TokenType.NEWLINE):
+                args.append(LiteralNode(value=None))
+            else:
+                args.append(self._parse_expression())
         return args
 
     def _parse_argument_list(self) -> list[ExpressionNode]:
@@ -2062,6 +2073,18 @@ class Parser:
                         indices.append(FunctionCallNode(function_name=func_name, arguments=[arg]))
                     else:
                         indices.append(VariableAccessNode(var_name=func_name, indices=[]))
+                elif idx_tok is not None and idx_tok.type == TokenType.FORMAT_STRING:
+                    # FIX-6: @"..." dynamic variable name (e.g. ABL:LOCAL:@"潜質{LOCAL:1}")
+                    self._advance()
+                    content = self._parse_printform_content()
+                    if len(content) == 1:
+                        seg = content[0]
+                        if seg.segment_type == "text":
+                            indices.append(LiteralNode(value=seg.value))
+                        elif seg.segment_type == "expression":
+                            indices.append(seg.value)
+                    else:
+                        indices.append(FormatStringNode(segments=content))
                 else:
                     break
         return VariableAccessNode(var_name=name, indices=indices)
@@ -2107,6 +2130,11 @@ class Parser:
             self._advance()
             right = self._parse_bitwise_xor()
             left = BinaryOpNode(op="|", left=left, right=right)
+        # FIX-7: Handle !| (NOR) — logical NOR: !(A || B)
+        while self._check(TokenType.NOR):
+            self._advance()
+            right = self._parse_bitwise_xor()
+            left = BinaryOpNode(op="!|", left=left, right=right)
         return left
 
     def _parse_bitwise_xor(self) -> ExpressionNode:
@@ -2123,6 +2151,11 @@ class Parser:
             self._advance()
             right = self._parse_equality()
             left = BinaryOpNode(op="&", left=left, right=right)
+        # FIX-7: Handle !& (NAND) — logical NAND: !(A && B)
+        while self._check(TokenType.NAND):
+            self._advance()
+            right = self._parse_equality()
+            left = BinaryOpNode(op="!&", left=left, right=right)
         return left
 
     def _parse_equality(self) -> ExpressionNode:
@@ -2183,6 +2216,10 @@ class Parser:
         return base
 
     def _parse_unary(self) -> ExpressionNode:
+        if self._check(TokenType.PLUS):
+            # 一元正号：+expr → expr（原版Emuera支持，如 += +MIN(...) 中的冗余+）
+            self._advance()
+            return self._parse_unary()
         if self._check(TokenType.MINUS):
             self._advance()
             operand = self._parse_unary()

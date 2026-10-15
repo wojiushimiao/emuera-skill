@@ -28,6 +28,8 @@ class TokenType(Enum):
     AND = '&&'
     OR = '||'
     NOT = '!'
+    NAND = '!&'
+    NOR = '!|'
     EQ = '=='
     NEQ = '!='
     LT = '<'

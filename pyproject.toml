@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "emuera-skill"
-version = "1.2.1"
+version = "1.2.2"
 description = "Emuera 脚本游戏开发、调试、游玩工具包 — 内置完整 Python 版 ERB 解释器内核"
 readme = "README.md"
 requires-python = ">=3.11"

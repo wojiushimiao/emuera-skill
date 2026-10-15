@@ -2,3 +2,9 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
+
+# 运行时输出目录（非源码，不入库）
+out/
+emuera-skill-out/
+test_output/
+release/

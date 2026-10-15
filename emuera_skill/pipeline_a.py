@@ -69,6 +69,7 @@ def run_pipeline_a(
         # 缓存命中，直接加载
         with open(snapshot_path, "r", encoding="utf-8") as f:
             cached = json.load(f)
+        sema_cached = cached.get("semantic_warnings") or []
         elapsed = time.time() - t0
         return {
             "fingerprint": fingerprint,
@@ -76,10 +77,12 @@ def run_pipeline_a(
             "cached": True,
             "elapsed_sec": elapsed,
             "encoding_convention": encoding_convention,
+            "semantic_warnings": sema_cached,
             "summary": {
                 "functions": cached.get("function_count", 0),
                 "variables": cached.get("variable_count", 0),
                 "parse_errors": len(cached.get("parse_errors") or []),
+                "semantic_warnings": len(sema_cached),
                 "encoding_violations": len(violations),
             },
         }
@@ -126,6 +129,7 @@ def run_pipeline_a(
         json.dump(index_data, f, ensure_ascii=False, indent=2)
 
     elapsed = time.time() - t0
+    sema = snapshot.semantic_warnings or []
     return {
         "fingerprint": fingerprint,
         "snapshot_path": str(snapshot_path),
@@ -133,10 +137,12 @@ def run_pipeline_a(
         "cached": False,
         "elapsed_sec": elapsed,
         "encoding_convention": encoding_convention,
+        "semantic_warnings": sema,
         "summary": {
             "functions": len(snapshot.functions),
             "variables": len(snapshot.variables),
             "parse_errors": len(snapshot.parse_errors),
+            "semantic_warnings": len(sema),
             "files": len(index.files),
             "scripts": len(index.scripts),
             "csv_tables": len(index.csv_tables),

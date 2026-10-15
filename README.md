@@ -2,7 +2,7 @@
 
 Emuera 脚本游戏开发、调试、游玩工具包 —— **内置完整 Python 版 ERB 解释器内核**，开箱即用。
 
-**版本**：v1.2.1 ｜ **Python**：≥ 3.11 ｜ **核心依赖**：零（纯标准库）
+**版本**：v1.2.2 ｜ **Python**：≥ 3.11 ｜ **核心依赖**：零（纯标准库）
 
 ## 功能特性
 
@@ -92,6 +92,7 @@ Emuera-SKILL/
 │   ├── mcp_server/      # MCP Server（9 工具）
 │   └── pipeline_a/bc/d.py # 管线
 ├── kernel/              # 内置完整 Python 内核
+│   ├── docs/            # 内核工程文档
 │   └── src/             # 内核包（保留 src 包名，零修改）
 │       ├── engine.py    # ERBEngine 入口
 │       ├── core/        # 词法/语法/语义/VM/变量/函数分发
@@ -103,6 +104,7 @@ Emuera-SKILL/
 ├── test_kb_data/        # 知识库数据（3 个 JSON）
 ├── config/              # 默认配置
 ├── contracts/           # 契约定义
+├── tests/               # 测试套件 + 内核零侵入基线
 ├── run_cli.py           # CLI 入口
 ├── run_mcp_server.py    # MCP 入口
 ├── pyproject.toml
@@ -141,6 +143,7 @@ pip install "aiohttp>=3.9.0"   # 或 pip install -e ".[full]"
 
 ## 版本
 
+- **v1.2.2 (2026-10-15)**：新增 **SEMA 语义校验**能力（对齐 C# 引擎 7 条硬规则，装配后自动执行，作为实机测试前门禁，经 `scan` / `project-checkup` / `capability` 暴露 `semantic_warnings`）；内核 8 项 ERB 解析修复（`CUSTOMDRAWLINE =`、一元 `+`、全角减号 `－`、科学计数法 `1E6`、空参数 `,,`、`ENCODETOUNI`、`@"..."` 动态变量名、`!&`/`!|` 运算符）；`tests/` 与 `kernel/docs/` 纳入版本控制；测试基线 80 passed / 0 failed
 - **v1.2.1 (2026-09-16)**：工程结构合并 —— 内核并入 `kernel/`、工具包改名为 `emuera_skill/`，内核与工具同树迭代调试；内核获授权新增装配进度回调与中止钩子（`abort_event` / `progress_callback`）；CLI 帮助补齐至 13 命令；修复 `capability` 子系统探测与 MCP 模块路径；`__version__` 与 MCP `serverInfo` 统一
 - **v1.2.0 (2026-09-15)**：内置完整 Python 内核（含 llm/、web/）；同步最新源码（8 个模块更新）；修正内核包层级与导入路径
 - v1.1.0 (2026-09-09)：首个发布版，内核仅含核心子集（core/io/loader）
